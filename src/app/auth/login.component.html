@@ -1,0 +1,66 @@
+<div class="wrapper">
+<div class="main-content">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            &nbsp;
+        </div>
+        <div class="col-md-4">
+            <p style="text-align: center;"><img src="/assets/img/logo-login2.png" height="80%" width="80%" alt="" style="display:block; margin: 0 auto;"></p>
+        </div>
+        <div class="col-md-4">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            &nbsp;
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header" data-background-color="red">
+                    <h4 class="title">Login</h4>
+                    <p class="category">To see your team's progress.</p>
+                </div>
+                <div class="card-content">
+                    <form (ngSubmit)="postLogin(loginForm.value)" [formGroup]="loginForm" autocomplete="off" ngNativeValidate>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-black label-floating is-empty">
+                                    <label class="control-label">Username</label>
+                                    <em *ngIf="username.invalid && username.dirty && loginForm.controls.username.errors.email">*Please enter valid email address.</em>
+                                    <em *ngIf="username.invalid && username.dirty && loginForm.controls.username.errors.required">*This is required. ,</em>
+                                    <input type="text" class="form-control" id="username" formControlName="username" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group form-black label-floating is-empty">
+                                    <label class="control-label">Password</label>
+                                    <em *ngIf="password.invalid && password.dirty && loginForm.controls.password.errors.maxlength">*Maximum length is 8.</em>
+                                    <em *ngIf="password.invalid && password.dirty && loginForm.controls.password.errors.required">*This is required. ,</em>
+                                    <input type="password" class="form-control" id="password" formControlName="password" required>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-danger">Login</button>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="control-label" style="cursor:pointer;" (click)="viewRegister()">Create Account</label>  |
+                            <label class="control-label" style="cursor:pointer;" (click)="viewRegister()">Forgot Password?</label>
+                        </div>
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            &nbsp;
+        </div>
+    </div>
+</div>
+</div>
+</div>
