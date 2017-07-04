@@ -2,6 +2,10 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('users');
 var mailer = require('../shared/mailer');
+var http = require('http');
+// Configuration
+var env = require('../config/environment.js')();
+var config = require('../config/config.js')[env];
 
 // Register New User
 exports.create = function(req, res, next) {
@@ -42,12 +46,36 @@ exports.login = function(req, res, next) {
     console.log(req.body);
     return res.status(400).json({message: 'Please fill out all fields.'});
   }
-  passport.authenticate('local', function(err, user, info){
-    if(err) { return next(err); }
-    if(user) {
-      return res.json({token: user.generateJWT(), id: user._id, email: user.username});
-    } else {
-      return res.status(401).json(info);
-    }
-  })(req, res, next);
+  var options = {
+    host: config.external_api.host,
+    port: config.external_api.port,
+    path: config.external_api.path + 'email/' + req.body.username,
+    method: 'GET'
+  };
+
+  var str= '';
+  http.get(options, function(resp){  // call CODEV API to check the email provided
+    resp.on('data', function(chunk){
+      str += chunk;
+      console.log(str);
+      if(str && str !== 'null') {
+        //  add here to find if the username already registered in mongodb
+        passport.authenticate('local', function(err, user, info){
+          if(err) { return next(err); }
+          if(user) {
+            return res.json({token: user.generateJWT(), id: user._id, email: user.username});
+          } else {
+            return res.status(401).json(info);
+          }
+        })(req, res, next);
+        // end find username
+      }
+      else {
+        return res.status(200).json({msg: 'Sorry, either your email is inactive or client supervisor is empty.'});
+      }
+    });
+  }).on("error", function(e){
+    return res.status(401).json({msg: e.message});
+  });
+
 }

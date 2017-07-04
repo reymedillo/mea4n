@@ -43,12 +43,13 @@ export class LoginComponent implements OnInit {
           }, {
             type: 'danger',
           });
+        } else {
+          console.log('success');
+          this.router.navigateByUrl(this.returnUrl);
         }
       }).subscribe(res => {
         if (!res) {
           this.loginInvalid = true;
-        } else {
-          this.router.navigateByUrl(this.returnUrl);
         }
       }, err => {
         console.log('error', err);

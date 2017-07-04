@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './routes';
 
 // Services
-import {PostsService} from './services/posts.service';
 import {AuthService} from './services/auth.service';
 // My Components
 import { HomeComponent } from './home/home.component';
